@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "axios": "^0.21.1",
+    "react-datepicker": "^4.2.1",
+    "react-router-dom": "^5.2.1",
+    "styled-components": "^5.3.1"
+  }
+}
