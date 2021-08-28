@@ -19,7 +19,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app)
 
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/api', methods=['GET', 'POST'])
 def home():
    """ Session control"""
    
@@ -31,7 +31,7 @@ def home():
          return render_template('index.html', data=getfollowedby(email))
       return render_template('index.html')
 
-@app.route("/check",methods=['GET', 'POST'])
+@app.route("/api/check",methods=['GET', 'POST'])
 def check():
     if request.method == 'GET':
         data = db.session.query(User).all()
@@ -48,7 +48,7 @@ def check():
             result.append(tmp)
         return jsonify(result)
 
-@app.route("/getUser",methods=['GET', 'POST'])
+@app.route("/api/getUser",methods=['GET', 'POST'])
 def getUser():
     if request.method == 'POST':
         data = request.get_json()
@@ -72,7 +72,7 @@ def getUser():
             print("error")
             return "error"
 
-@app.route("/getAward",methods=['GET', 'POST'])
+@app.route("/api/getAward",methods=['GET', 'POST'])
 def getAward():
     if request.method == 'POST':
         data = request.get_json()
@@ -97,7 +97,7 @@ def getAward():
             print("error")
             return "error"
 
-@app.route("/postAward",methods=['GET', 'POST'])
+@app.route("/api/postAward",methods=['GET', 'POST'])
 def postAward():
     if request.method == 'POST':
         data = request.get_json()
@@ -119,7 +119,7 @@ def postAward():
             print("error")
             return "error"
 
-@app.route("/getCertificate",methods=['GET', 'POST'])
+@app.route("/api/getCertificate",methods=['GET', 'POST'])
 def getCertificate():
     if request.method == 'POST':
         data = request.get_json()
@@ -142,7 +142,7 @@ def getCertificate():
             return "error"
         
 
-@app.route("/getProject",methods=['GET', 'POST'])
+@app.route("/api/getProject",methods=['GET', 'POST'])
 def getProject():
     if request.method == 'POST':
         data = request.get_json()
@@ -167,7 +167,7 @@ def getProject():
             print("error")
             return "error"
             
-@app.route("/getEdulevel",methods=['GET', 'POST'])
+@app.route("/api/getEdulevel",methods=['GET', 'POST'])
 def getEdulevel():
     if request.method == 'POST':
         data = request.get_json()
@@ -191,7 +191,7 @@ def getEdulevel():
 
 
 
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/api/login', methods=['GET', 'POST'])
 def login():
    if request.method == 'GET':
       return render_template('login.html')
@@ -209,7 +209,7 @@ def login():
         except:
             return email + "NotLogin"
 
-@app.route('/register', methods=['GET', 'POST'])
+@app.route('/api/register', methods=['GET', 'POST'])
 def register():
    if request.method == 'POST':
       data = request.get_json()
@@ -219,7 +219,7 @@ def register():
       return render_template('login.html')
    return render_template('register.html')
 
-@app.route("/logout")
+@app.route("/api/logout")
 def logout():
    session['logged_in'] = False
    return redirect(url_for('home'))
