@@ -11,7 +11,7 @@ export const isLoginCheck = createSlice({
     },
     logout: state => {
       state.value = false;
-    }
+    },
   },
 });
 

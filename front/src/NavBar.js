@@ -1,62 +1,42 @@
-import React, {useEffect, useState} from "react";
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { Container,Navbar,Nav,NavDropdown} from 'react-bootstrap';
-import { login, logout, loginValid } from './Redux/Slices/isLoginSlice'
+import { loginValid, logout } from './Redux/Slices/isLoginSlice'
+import './Css/NavBar.scss'
 
-import "./Css/Navbar.scss";
-
-
-const NavBars = () => {
-    const [currentLogin, setCurrentLogin] = useState(false);
-    const isLoggedIn = useSelector(loginValid);
-    const dispatch = useDispatch();
-    console.log(isLoggedIn)
-    useEffect(() => {
-      if (isLoggedIn === true) {
-        setCurrentLogin(true)
-        dispatch(login())
-      }
-    }, [dispatch, isLoggedIn]
-    );
-    if (currentLogin === true) {
-      console.log(currentLogin)
-    } 
-
-    function UserNav(props) {
-      return (
-        <>
-          <Nav.Link href="/Network" onClick={() => dispatch(login())}>Network</Nav.Link>
-          <Nav.Link href="/MyPage" onClick={() => dispatch(login())}>MyPage</Nav.Link>
-          <Nav.Link href="/" onClick={() => dispatch(logout())}>Logout</Nav.Link>
-        </>
-      );
-    }
-
-    function GuestNav(props) {
-      return (
-        <>
-          <Nav.Link href="/Network">Network</Nav.Link>
-          <Nav.Link href="/Login">Login</Nav.Link>
-          <Nav.Link href="/Register">Register</Nav.Link>
-        </>
-      );
-    }
+function UserNav(props) {
+  const dispatch = useDispatch();
+  function handleLogOut(e) {
+    dispatch(logout())
+  }
   return (
-    <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
-  <Container>
-  <Navbar.Brand href="/"><img  src="" width="150px" class="d-inline-block align-text-top" alt=""/>Home</Navbar.Brand>
-  
-  <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-  <Navbar.Collapse id="responsive-navbar-nav">
-    <Nav className="me-auto">
-    </Nav>
-    <Nav>
-      {currentLogin === true ? <UserNav /> : <GuestNav />}
-    </Nav>
-  </Navbar.Collapse>
-  </Container>
-</Navbar>
+    <div className="linkWrapper">
+      <Link className='link' to='/Network'>Network</Link>
+      <Link className='link' to='/MyPage'>MyPage</Link>
+      <Link className='link' to='/' onClick={handleLogOut}>Logout</Link>
+    </div>
   );
-};
+}
 
-export default NavBars;
+function GuestNav(props) {
+
+  return (
+    <div className="linkWrapper">
+      <Link className='link' key='/Network' to='/Network'>Network</Link>
+      <Link className='link' key='/Login' to='/Login'>Login</Link>
+      <Link className='link' key='/Register' to='/Register'>Register</Link>
+    </div>
+  );
+}
+
+export default function NNavBar() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const nowLoginValid = useSelector(loginValid);
+
+  return (
+    <nav className='header'>
+      <Link className='logo' key='/' to='/Network'>Home</Link>
+      {nowLoginValid === true ? <UserNav /> : <GuestNav />}
+    </nav>
+  );
+}
